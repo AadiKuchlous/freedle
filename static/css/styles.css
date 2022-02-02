@@ -39,7 +39,7 @@ body {
   }
 
   #enter.keyboard-key, #delete.keyboard-key {
-    width: 16%;
+    width: 14%;
   }
 
 }
@@ -90,7 +90,7 @@ body {
 #header {
   width: 100%;
   background-color: lightslategray;
-  height: 7%;
+  height: 8%;
 }
 
 #tiles-area {
@@ -110,6 +110,8 @@ body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  overflow: hidden;
+  padding: 0 5px 0 5px;
 }
 
 #title {
@@ -119,7 +121,7 @@ body {
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 4.5vh;
+  font-size: 5vh;
   pointer-events: none;
   letter-spacing: 0.4rem;
 }
@@ -142,7 +144,7 @@ body {
 
 .game-tile {
   display: inline-flex;
-  border: 2px black solid;
+  border: 2px #666666 solid;
   align-items: center;
   justify-content: center;
   text-transform: uppercase;
@@ -170,7 +172,8 @@ body {
   color: white;
   font-size: 2vh;
   font-weight: 500;
-  border-radius: 7px;
+  border: none;
+  margin-left: 4px;
 }
 
 #enter.keyboard-key, #delete.keyboard-key {

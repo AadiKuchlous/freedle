@@ -8,7 +8,7 @@ $(document).ready(function() {
   drawKeyboard();
 
   // Handling the user keyboard input
-  $(this).keydown(function(e) {
+  $(this).keypress(function(e) {
     // e.preventDefault();
     handleKeyInput(e.which);
   });
@@ -132,7 +132,7 @@ function getGuessNo() {
 
 function writeLettersInGrid() {
 
-  $(document).find('.game-tile').text('');
+  $(document).find('.game-tile').text('').css({'border-color': '#666666'});
 
   for (guess_no = 0; guess_no < guesses.length; guess_no++) {
     guess = guesses[guess_no];
@@ -142,6 +142,7 @@ function writeLettersInGrid() {
       let grid_row = $(`.tile-row[row=${guess_no}]`);
       let tile = grid_row.find(`.game-tile[x=${i}]`)
       tile.text(letter);
+      tile.css({'border-color': 'black'});
     }
   }
 }
@@ -160,4 +161,6 @@ function resizePage() {
   let height = 6 * Math.floor(width / 5);
 
   $('#tiles-grid').css({'height': `${height}px`, 'width': `${width}px`})
+
+  $('.keyboard-key').css({'border-radius': `${parseFloat(tiles_area.css('width')) / 55}px`})
 }
