@@ -154,6 +154,18 @@ body {
   vertical-align: bottom;
 }
 
+.game-tile[evaluation='correct'] {
+  background-color: #538d4e;
+}
+
+.game-tile[evaluation='present'] {
+  background-color: #b59f3b;
+}
+
+.game-tile[evaluation='absent'] {
+  background-color: #3a3a3c;
+}
+
 .keyboard-row {
   width: 100%;
   margin-bottom: 4px;
