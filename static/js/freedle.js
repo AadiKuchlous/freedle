@@ -19,6 +19,8 @@ $(document).ready(function() {
       handleKeyInput(e.which);
     }
   });
+
+  resizePage();
 })
 
 
@@ -142,4 +144,20 @@ function writeLettersInGrid() {
       tile.text(letter);
     }
   }
+}
+
+
+$(window).on('resize', function(){
+  resizePage();
+});
+
+
+function resizePage() {
+  let tiles_area = $('#tiles-area');
+  let tiles_area_height = tiles_area.css('height');
+
+  let width = Math.max(Math.floor(parseFloat(tiles_area_height) * (4 / 6)), 350);
+  let height = 6 * Math.floor(width / 5);
+
+  $('#tiles-grid').css({'height': `${height}px`, 'width': `${width}px`})
 }

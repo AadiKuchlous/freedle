@@ -1,6 +1,7 @@
 html {
   height: 100%;
   font-family: 'Clear Sans', 'Helvetica Neue', Arial, sans-serif;
+  touch-action: none;
 }
 
 body {
@@ -9,7 +10,7 @@ body {
   user-select: none;
 }
 
-@media screen and (max-device-width: 600px) {
+@media screen and (max-device-width: 1300px) {
 
   #container {
     width: 100%;
@@ -25,7 +26,7 @@ body {
   }
 
   #keyboard-area {
-    height: 30%;
+    height: 33%;
   }
 
   .keyboard-row {
@@ -43,10 +44,10 @@ body {
 
 }
 
-@media screen and (min-device-width: 601px) {
+@media screen and (min-device-width: 1301px) {
 
   #container {
-    width: 600px;
+    width: 50vh;
   }
 
   #tiles-grid {
@@ -59,7 +60,7 @@ body {
   }
 
   #keyboard-area {
-    height: 200px;
+    height: 25%;
   }
 
   .keyboard-row {
@@ -89,7 +90,7 @@ body {
 #header {
   width: 100%;
   background-color: lightslategray;
-  height: 6%;
+  height: 7%;
 }
 
 #tiles-area {
@@ -118,7 +119,7 @@ body {
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 4vh;
+  font-size: 4.5vh;
   pointer-events: none;
   letter-spacing: 0.4rem;
 }
