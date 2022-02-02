@@ -8,25 +8,50 @@ body {
   margin: 0px;
 }
 
+@media screen and (max-device-width: 600px) {
+
+  #container {
+    width: 100%;
+  }
+
+  #tiles-grid {
+    width: 80%;
+  }
+
+}
+
+@media screen and (min-device-width: 601px) {
+
+  #container {
+    width: 600px;
+  }
+
+  #tiles-grid {
+    width: 60%;
+  }
+}
+
+
 #container {
-//  width: 30%;
-  width: 600px;
   height: 100%;
   margin-right: auto;
   margin-left: auto;
   background-color: black;
+  display: flex;
+  flex-direction: column;
 }
 
 #header {
   width: 100%;
   background-color: lightslategray;
-  height: 8%;
+  height: 50px;
 }
 
 #tiles-area {
   width: 100%;
   background-color: lightskyblue;
-  height: 68%;
+  // height: 68%;
+  flex-grow: 1;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -35,7 +60,7 @@ body {
 #keyboard-area {
   width: 100%;
   background-color: lightslategray;
-  height: 24%;
+  height: 200px;
   display: flex;
    flex-direction: column;
   justify-content: center;
@@ -58,7 +83,6 @@ body {
 }
 
 #tiles-grid {
-  width: 60%;
   display: grid;
   grid-template-rows: repeat(6, 1fr);
   grid-gap: 5px;
