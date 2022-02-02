@@ -8,7 +8,7 @@ $(document).ready(function() {
   drawKeyboard();
 
   // Handling the user keyboard input
-  $(this).keypress(function(e) {
+  $(this).keydown(function(e) {
     // e.preventDefault();
     handleKeyInput(e.which);
   });
