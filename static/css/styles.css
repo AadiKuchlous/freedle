@@ -17,14 +17,20 @@ body {
 
   #tiles-grid {
     width: 80%;
+    grid-gap: 2vw;
+  }
+
+  .tile-row {
+    grid-gap: 2vw;
   }
 
   #keyboard-area {
-    height: 25%;
+    height: 30%;
   }
 
   .keyboard-row {
-    height: 31%;
+    height: 29%;
+    padding: 0.5vh 0 0.2vh 0;
   }
 
   .keyboard-key{
@@ -45,6 +51,11 @@ body {
 
   #tiles-grid {
     width: 60%;
+    grid-gap: 6px;
+  }
+
+  .tile-row {
+    grid-gap: 6px;
   }
 
   #keyboard-area {
@@ -72,6 +83,7 @@ body {
   background-color: black;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 }
 
 #header {
@@ -106,8 +118,9 @@ body {
   justify-content: center;
   color: white;
   font-weight: 700;
-  font-size: 3.5vh;
+  font-size: 4vh;
   pointer-events: none;
+  letter-spacing: 0.4rem;
 }
 
 .menu-button {
@@ -117,7 +130,6 @@ body {
 #tiles-grid {
   display: grid;
   grid-template-rows: repeat(6, 1fr);
-  grid-gap: 5px;
   padding: 10px;
   aspect-ratio: 5 / 6;
 }
@@ -125,7 +137,6 @@ body {
 .tile-row {
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  grid-gap: 5px;
 }
 
 .game-tile {
@@ -136,7 +147,7 @@ body {
   text-transform: uppercase;
   color: white;
   font-weight: 700;
-  font-size: 3.5vh;
+  font-size: 4.5vh;
   vertical-align: bottom;
 }
 
@@ -148,7 +159,7 @@ body {
 }
 
 .keyboard-key {
-  background: grey;
+  background: #45464a;
   display: inline-flex;
   height: 100%;
   margin: 2px;

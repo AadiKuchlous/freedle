@@ -58,7 +58,7 @@ function drawKeyboard() {
 
     for (letter_index = 0; letter_index < row_letters.length; letter_index++) {
       let letter = row_letters[letter_index];
-      let letter_key = $('<div/>').addClass('keyboard-key').attr('id', letter).text(letter);
+      let letter_key = $('<button/>').addClass('keyboard-key').attr('id', letter).text(letter);
 
       if (letter == 'delete') {
         letter_key.html(delete_svg);
