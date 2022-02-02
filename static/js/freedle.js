@@ -177,7 +177,8 @@ function resizePage() {
 
 
 function evaluate(guess, guess_no) {
-  let guess_string = guess.join();
+  let guess_string = guess.join('');
+  console.log(guess_string);
   if (!(all_answers.includes(guess_string)) && !(valid_words.includes(guess_string))) {
     alert("Not In Word List");
     return;
