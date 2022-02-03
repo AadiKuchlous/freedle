@@ -18,11 +18,11 @@ body {
 
   #tiles-grid {
     width: 80%;
-    grid-gap: 2vw;
+    grid-gap: 1vw;
   }
 
   .tile-row {
-    grid-gap: 2vw;
+    grid-gap: 1vw;
   }
 
   #keyboard-area {

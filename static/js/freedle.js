@@ -215,8 +215,10 @@ function resizePage() {
   let tiles_area = $('#tiles-area');
   let tiles_area_height = tiles_area.css('height');
 
-  let width = Math.max(Math.floor(parseFloat(tiles_area_height) * (4 / 6)), 350);
-  let height = 6 * Math.floor(width / 5);
+//  let width = Math.max(Math.floor(parseFloat(tiles_area_height) * (4 / 6)), 350);
+//  let height = 6 * Math.floor(width / 5);
+
+  let [width, height] = chooseGridDimentions()
 
   $('#tiles-grid').css({'height': `${height}px`, 'width': `${width}px`})
 
@@ -233,6 +235,36 @@ function resizePage() {
   share_svg.addClass('hidden');
 
   share_svg.on('click', shareResult);
+}
+
+function chooseGridDimentions() {
+  let tiles_area = $('#tiles-area');
+  let f_h = parseFloat(tiles_area.css('height'));
+  let f_w = parseFloat(tiles_area.css('width'));
+
+  // width and height based on 90% width then aspect ratio
+  let w_w = 0.9*f_w;
+  let w_h = (6/5) * w_w;
+
+  // width and height based on 90% height then aspect ratio
+  let h_h = 0.9*f_h;
+  let h_w = (5/6) * h_h;
+
+  // Check if either is larger than our area, then return the other
+  if (w_h >= 0.95 * f_h) {
+    return [h_w, h_h];
+  }
+  if (h_w >= 0.95 * f_w) {
+    return [w_w, w_h];
+  }
+
+  // If both fit, return the pair with the greatest product
+  if (w_w * w_h > h_w * h_h) {
+    return [w_w, w_h];
+  }
+  else {
+    return [h_w, h_h];
+  }
 }
 
 
