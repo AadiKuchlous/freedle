@@ -157,14 +157,17 @@ body {
 
 .game-tile[evaluation='correct'] {
   background-color: #538d4e;
+  border: none;
 }
 
 .game-tile[evaluation='present'] {
   background-color: #b59f3b;
+  border: none;
 }
 
 .game-tile[evaluation='absent'] {
   background-color: #3a3a3c;
+  border: none;
 }
 
 .keyboard-row {

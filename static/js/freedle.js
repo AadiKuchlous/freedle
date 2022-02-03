@@ -299,9 +299,18 @@ function shareResult() {
 
   console.log(outputString);
 
-  copyToClipboard(outputString);
+  if (navigator.share) {
+    // Web Share API is supported
+    navigator.share({
+      'text': outputString
+    });
+  }
+  else {
+    // Fallback
+    copyToClipboard(outputString);
+    alert(`The following was copied to your clipboard:\n${outputString}`);
+  }
 
-  alert(`The following was copied to your clipboard:\n${outputString}`);
 }
 
 var green_square = '\uD83D\uDFE9';
