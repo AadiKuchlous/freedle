@@ -2,7 +2,7 @@ let delete_svg = '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0
 
 
 //initialize empty guess matrix
-var guesses = [...Array(6)].map(e => new Array());
+var board_state = [...Array(6)].map(e => new Array());
 
 var solution;
 
@@ -100,18 +100,18 @@ function handleKeyInput(asc) {
   if (asc >= 97 && asc <= 122) {
     let letter = String.fromCharCode(asc);
 
-    if (guesses[guess_no].length == 5) {
+    if (board_state[guess_no].length == 5) {
       return
     }
 
-    guesses[guess_no].push(letter);
+    board_state[guess_no].push(letter);
   }
 
   // Enter Key Pressed
   if (asc == 13) {
-    if (guesses[guess_no].length == 5) {
+    if (board_state[guess_no].length == 5) {
       console.log('evaluating');
-      evaluate(guesses[guess_no], guess_no);
+      evaluate(board_state[guess_no], guess_no);
     }
     else {
       return;
@@ -121,20 +121,18 @@ function handleKeyInput(asc) {
   // Backspace Key Pressed
   if (asc == 8) {
     console.log('backspace');
-    if (guesses[guess_no].length > 0) {
-      guesses[guess_no].pop();
+    if (board_state[guess_no].length > 0) {
+      board_state[guess_no].pop();
     }
   }
 
   typeLettersInGrid();
-
-  console.log(guesses);
 }
 
 
 function getGuessNo() {
-  for (i = 0; i < guesses.length; i++) {
-    if (guesses[i].length <= 5 && !($(`.tile-row[row=${i}]`).attr('evaluated'))) {
+  for (i = 0; i < board_state.length; i++) {
+    if (board_state[i].length <= 5 && !($(`.tile-row[row=${i}]`).attr('evaluated'))) {
       return(i);
     }
   }
@@ -145,8 +143,8 @@ function typeLettersInGrid() {
 
   $(document).find('.game-tile').text('').css({'border-color': '#666666'});
 
-  for (guess_no = 0; guess_no < guesses.length; guess_no++) {
-    guess = guesses[guess_no];
+  for (guess_no = 0; guess_no < board_state.length; guess_no++) {
+    guess = board_state[guess_no];
 
     for (i = 0; i < guess.length; i++) {
       let letter = guess[i];
@@ -174,6 +172,18 @@ function resizePage() {
   $('#tiles-grid').css({'height': `${height}px`, 'width': `${width}px`})
 
   $('.keyboard-key').css({'border-radius': `${parseFloat(tiles_area.css('width')) / 55}px`})
+
+  let header = $('#header');
+  $('#title').css({'width': header.css('width'), 'height': header.css('height')});
+
+  let share_svg = $('#share-svg');
+  share_svg.attr('height', parseFloat($('#title').css('font-size'))*3/4);
+  share_svg.attr('width', parseFloat($('#title').css('font-size'))*3/4);
+  share_svg.css({'top': (parseFloat(header.css('height')) - parseFloat(share_svg.attr('height'))) / 2});
+  share_svg.css({'left': parseFloat(share_svg.css('left')) + parseFloat(header.css('width')) / 30});
+  share_svg.addClass('hidden');
+
+  share_svg.on('click', shareResult);
 }
 
 
@@ -184,6 +194,9 @@ function evaluate(guess, guess_no) {
     alert("Not In Word List");
     return;
   }
+
+  let correct_letters_count = 0;
+  let eval = [];
 
   for (i = 0; i < guess.length; i++){
     let letter = guess[i].toLowerCase();
@@ -196,10 +209,13 @@ function evaluate(guess, guess_no) {
 
     if (solution.includes(letter)) {
       if (solution.charAt(i) == letter) {
+        correct_letters_count += 1;
         tile.attr('evaluation', 'correct');
         letter_key.attr('evaluation', 'correct');
+        eval.push('correct');
       }
       else {
+        eval.push('present');
         tile.attr('evaluation', 'present');
         if (!(letter_key.attr('evaluation') == "correct")) {
           letter_key.attr('evaluation', 'present');
@@ -207,6 +223,7 @@ function evaluate(guess, guess_no) {
       }
     }
     else {
+      eval.push('absent');
       tile.attr('evaluation', 'absent');
       if (!(letter_key.attr('evaluation') == "correct" || letter_key.attr('evaluation') == "present")) {
         letter_key.attr('evaluation', 'absent');
@@ -214,6 +231,12 @@ function evaluate(guess, guess_no) {
     }
   }
   $(`.tile-row[row=${guess_no}]`).attr('evaluated', 'true');
+
+  if (correct_letters_count == guess.length) {
+    $('#share-svg').removeClass('hidden');
+  }
+
+  return eval;
 }
 
 function getSolution(today, start_date, answer_list) {
@@ -226,4 +249,90 @@ function getDayOffset(date, start_date) {
   let millisecond_diff = date.setHours(0, 0, 0, 0) - start_date.setHours(0, 0, 0, 0);
   let date_offset = Math.round(millisecond_diff / 864e5)
   return date_offset;
+}
+
+function shareResult() {
+  console.log('Sharing');
+  console.log(board_state);
+
+  let outputString = "";
+
+  let freedle_index = getDayOffset(today, start_date);
+  outputString += `Freedle ${freedle_index} \n\n`;
+
+
+  for (guess_no = 0; guess_no < board_state.length; guess_no++) {
+    let guess = board_state[guess_no];
+    if (guess.length == 0) {
+      continue;
+    }
+
+    var guess_eval = evaluate(board_state[guess_no], guess_no);
+    console.log(guess_eval);
+ 
+    for (letter_index = 0; letter_index < guess.length; letter_index++) {
+      let letter_eval = guess_eval[letter_index];
+
+      switch (letter_eval) {
+        case "correct":
+          outputString += green_square;
+          console.log(green_square);
+          break;
+
+        case "present":
+          outputString += yellow_square;
+          console.log(yellow_square);
+          break;
+
+        case "absent":
+          outputString += black_square;
+          console.log(black_square);
+          break;
+
+      }
+
+    }
+    outputString += '\n';
+  }
+
+  outputString += "\nTry it for yourself at: https://aadikuchlous.github.io/freedle/";
+
+  console.log(outputString);
+
+  copyToClipboard(outputString);
+
+  alert(`The following was copied to your clipboard:\n${outputString}`);
+}
+
+var green_square = '\uD83D\uDFE9';
+var yellow_square = '\uD83D\uDFE8';
+var black_square = '\u2B1B';
+
+
+
+
+
+function copyToClipboard(text) {
+    if (window.clipboardData && window.clipboardData.setData) {
+        // Internet Explorer-specific code path to prevent textarea being shown while dialog is visible.
+        return window.clipboardData.setData("Text", text);
+
+    }
+    else if (document.queryCommandSupported && document.queryCommandSupported("copy")) {
+        var textarea = document.createElement("textarea");
+        textarea.textContent = text;
+        textarea.style.position = "fixed";  // Prevent scrolling to bottom of page in Microsoft Edge.
+        document.body.appendChild(textarea);
+        textarea.select();
+        try {
+            return document.execCommand("copy");  // Security exception may be thrown by some browsers.
+        }
+        catch (ex) {
+            console.warn("Copy to clipboard failed.", ex);
+            return prompt("Copy to clipboard: Ctrl+C, Enter", text);
+        }
+        finally {
+            document.body.removeChild(textarea);
+        }
+    }
 }

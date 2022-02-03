@@ -115,7 +115,8 @@ body {
 }
 
 #title {
-  height: 100%;
+  position: absolute;
+  top: 0px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -207,4 +208,8 @@ body {
 
 .keyboard-key[evaluation='absent'] {
   background-color: #1e1e1e;
+}
+
+.hidden {
+  display: none;
 }
