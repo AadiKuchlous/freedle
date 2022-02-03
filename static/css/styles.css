@@ -124,12 +124,13 @@ body {
   color: white;
   font-weight: 700;
   font-size: 5vh;
+  line-height: 1;
   pointer-events: none;
   letter-spacing: 0.4rem;
 }
 
 #signature {
-  font-size: 1vh;
+  font-size: 1.5vh;
   letter-spacing: 0.2rem;
 }
 
