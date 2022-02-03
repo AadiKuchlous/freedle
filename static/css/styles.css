@@ -203,15 +203,15 @@ body {
 
 .game-tile[data-animation='flip-in'] {
   animation-name: FlipIn;
-  animation-duration: 250ms;
-  animation-timing-function: ease-in;
+  animation-duration: 300ms;
+  animation-timing-function: ease-in-out;
 }
 @keyframes FlipIn {
   0% {
-    transform: rotateX(-100deg);
-  }
-  50% {
     transform: rotateX(-90deg);
+  }
+  80% {
+    transform: rotateX(-25deg);
   }
   100% {
     transform: rotateX(0deg);

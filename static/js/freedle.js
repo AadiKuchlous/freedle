@@ -265,7 +265,7 @@ function evaluate(guess, guess_no) {
     let letter_key = $(`#${letter}-key`);
 
     let tile = $(`.tile-row[row=${guess_no}]`).find(`.game-tile[x=${i}]`);
-    tile.css({'animation-delay': `${(i+guess_no)*0.11}s`}).attr('data-animation', 'flip-in').one('animationstart', function() {
+    tile.css({'animation-delay': `${(i*0.2)+(guess_no*0.3)}s`}).attr('data-animation', 'flip-in').one('animationstart', function() {
       $(this).attr('flippedOpen', true);
     });
 
