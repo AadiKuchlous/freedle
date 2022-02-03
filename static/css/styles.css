@@ -162,19 +162,60 @@ body {
   vertical-align: bottom;
 }
 
-.game-tile[evaluation='correct'] {
+.game-tile[data-state='empty'] {
+  border-color: #666666;
+}
+
+.game-tile[data-state='guess'] {
+  border-color: black;
+}
+
+.game-tile[evaluation='correct'][flippedOpen='true'] {
   background-color: #538d4e;
   border: none;
 }
 
-.game-tile[evaluation='present'] {
+.game-tile[evaluation='present'][flippedOpen='true'] {
   background-color: #b59f3b;
   border: none;
 }
 
-.game-tile[evaluation='absent'] {
+.game-tile[evaluation='absent'][flippedOpen='true'] {
   background-color: #3a3a3c;
   border: none;
+}
+
+.game-tile[data-animation='pop'] {
+  animation-name: PopIn;
+  animation-duration: 100ms;
+}
+@keyframes PopIn {
+  from {
+    transform: scale(0.8);
+    opacity: 0;
+  }
+
+  40% {
+    transform: scale(1.1);
+    opacity: 1;
+  }
+}
+
+.game-tile[data-animation='flip-in'] {
+  animation-name: FlipIn;
+  animation-duration: 250ms;
+  animation-timing-function: ease-in;
+}
+@keyframes FlipIn {
+  0% {
+    transform: rotateX(-100deg);
+  }
+  50% {
+    transform: rotateX(-90deg);
+  }
+  100% {
+    transform: rotateX(0deg);
+  }
 }
 
 .keyboard-row {

@@ -60,7 +60,7 @@ $(document).ready(function() {
 
 
 function typeColouredLettersInGrid(board_state) {
-  typeLettersInGrid(board_state);
+  fillLettersInGrid(board_state);
 
   for (guess_no = 0; guess_no < board_state.length; guess_no++) {
     let guess = board_state[guess_no]
@@ -77,7 +77,7 @@ function drawLettersGrid() {
   for (y = 0; y < 6; y ++) {
     let row = $('<div/>').addClass('tile-row').attr('row', y);
     for (x = 0; x < 5; x ++) {
-      let tile = $('<div/>').addClass('game-tile');
+      let tile = $('<div/>').addClass('game-tile').attr('data-state', 'empty');;
       let tile_id = `tile-${x}-${y}`;
       tile.attr('id', tile_id);
       tile.attr('x', x);
@@ -134,38 +134,54 @@ function handleKeyInput(asc) {
 
   let guess_no = getGuessNo();
 
-  // Letter Keys Handler
-  if (asc >= 97 && asc <= 122) {
-    let letter = String.fromCharCode(asc);
-
-    if (board_state[guess_no].length == 5) {
-      return
-    }
-
-    board_state[guess_no].push(letter);
-    setBoardState(board_state);
-  }
-
   // Enter Key Pressed
   if (asc == 13) {
     if (board_state[guess_no].length == 5) {
       evaluate(board_state[guess_no], guess_no);
+      return;
     }
     else {
       return;
     }
   }
 
+  let grid_row = $(`.tile-row[row=${guess_no}]`);
+
+  // Letter Keys Handler
+  if (asc >= 97 && asc <= 122) {
+    let letter = String.fromCharCode(asc);
+    let tile = grid_row.find(`.game-tile[x=${board_state[guess_no].length}]`)
+
+    if (board_state[guess_no].length == 5) {
+      return;
+    }
+
+    tile.text(letter);
+    tile.attr('data-state', 'guess');
+    tile.attr('data-animation', 'pop');
+
+    board_state[guess_no].push(letter);
+  }
+
   // Backspace Key Pressed
   if (asc == 8) {
     console.log('backspace');
+
+    let tile = grid_row.find(`.game-tile[x=${board_state[guess_no].length - 1}]`)
+
     if (board_state[guess_no].length > 0) {
+      console.log(tile);
+
+      tile.text('');
+      tile.attr('data-state', 'empty');
+      tile.attr('data-animation', '');
+
       board_state[guess_no].pop();
-      setBoardState(board_state);
     }
   }
 
-  typeLettersInGrid(board_state);
+  setBoardState(board_state);
+  // typeLettersInGrid(board_state);
 }
 
 
@@ -180,8 +196,8 @@ function getGuessNo() {
 }
 
 
-function typeLettersInGrid(board_state) {
-  $(document).find('.game-tile').text('').css({'border-color': '#666666'});
+function fillLettersInGrid(board_state) {
+  $(document).find('.game-tile').text('').css({'border-color': '#666666'}).attr('data-animation', '');
 
   for (guess_no = 0; guess_no < board_state.length; guess_no++) {
     guess = board_state[guess_no];
@@ -191,7 +207,8 @@ function typeLettersInGrid(board_state) {
       let grid_row = $(`.tile-row[row=${guess_no}]`);
       let tile = grid_row.find(`.game-tile[x=${i}]`)
       tile.text(letter);
-      tile.css({'border-color': 'black'});
+      tile.attr('data-state', 'empty');
+      // tile.attr('data-animation', 'pop');
     }
   }
 }
@@ -248,6 +265,9 @@ function evaluate(guess, guess_no) {
     let letter_key = $(`#${letter}-key`);
 
     let tile = $(`.tile-row[row=${guess_no}]`).find(`.game-tile[x=${i}]`);
+    tile.css({'animation-delay': `${i*0.11}s`}).attr('data-animation', 'flip-in').one('animationstart', function() {
+      $(this).attr('flippedOpen', true);
+    });
 
     if (solution.includes(letter)) {
       if (solution.charAt(i) == letter) {
@@ -272,6 +292,7 @@ function evaluate(guess, guess_no) {
       }
     }
   }
+
   $(`.tile-row[row=${guess_no}]`).attr('evaluated', 'true');
 
   if (correct_letters_count == guess.length) {
