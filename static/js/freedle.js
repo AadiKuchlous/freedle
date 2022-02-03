@@ -1,5 +1,6 @@
 let delete_svg = '<svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 0 24 24" width="24"><path fill="white" d="M22 3H7c-.69 0-1.23.35-1.59.88L0 12l5.41 8.11c.36.53.9.89 1.59.89h15c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H7.07L2.4 12l4.66-7H22v14zm-11.59-2L14 13.41 17.59 17 19 15.59 15.41 12 19 8.41 17.59 7 14 10.59 10.41 7 9 8.41 12.59 12 9 15.59z"></path></svg>';
 
+
 //initialize empty guess matrix
 var guesses = [...Array(6)].map(e => new Array());
 
@@ -70,7 +71,7 @@ function drawKeyboard() {
 
     for (letter_index = 0; letter_index < row_letters.length; letter_index++) {
       let letter = row_letters[letter_index];
-      let letter_key = $('<button/>').addClass('keyboard-key').attr('id', letter).text(letter);
+      let letter_key = $('<button/>').addClass('keyboard-key').attr('id', `${letter}-key`).text(letter);
 
       if (letter == 'delete') {
         letter_key.html(delete_svg);
@@ -125,7 +126,7 @@ function handleKeyInput(asc) {
     }
   }
 
-  writeLettersInGrid();
+  typeLettersInGrid();
 
   console.log(guesses);
 }
@@ -140,7 +141,7 @@ function getGuessNo() {
 }
 
 
-function writeLettersInGrid() {
+function typeLettersInGrid() {
 
   $(document).find('.game-tile').text('').css({'border-color': '#666666'});
 
@@ -178,27 +179,38 @@ function resizePage() {
 
 function evaluate(guess, guess_no) {
   let guess_string = guess.join('');
-  console.log(guess_string);
+
   if (!(all_answers.includes(guess_string)) && !(valid_words.includes(guess_string))) {
     alert("Not In Word List");
     return;
   }
 
   for (i = 0; i < guess.length; i++){
-    let letter = guess[i];
+    let letter = guess[i].toLowerCase();
+
+    let letter_key = $(`#${letter}-key`);
+
+    console.log(letter_key);
 
     let tile = $(`.tile-row[row=${guess_no}]`).find(`.game-tile[x=${i}]`);
 
     if (solution.includes(letter)) {
       if (solution.charAt(i) == letter) {
         tile.attr('evaluation', 'correct');
+        letter_key.attr('evaluation', 'correct');
       }
       else {
         tile.attr('evaluation', 'present');
+        if (!(letter_key.attr('evaluation') == "correct")) {
+          letter_key.attr('evaluation', 'present');
+        }
       }
     }
     else {
       tile.attr('evaluation', 'absent');
+      if (!(letter_key.attr('evaluation') == "correct" || letter_key.attr('evaluation') == "present")) {
+        letter_key.attr('evaluation', 'absent');
+      }
     }
   }
   $(`.tile-row[row=${guess_no}]`).attr('evaluated', 'true');

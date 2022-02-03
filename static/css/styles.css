@@ -38,7 +38,7 @@ body {
     width: 9%;
   }
 
-  #enter.keyboard-key, #delete.keyboard-key {
+  #enter-key.keyboard-key, #delete-key.keyboard-key {
     width: 14%;
   }
 
@@ -71,7 +71,7 @@ body {
     width: 8%;
   }
 
-  #enter.keyboard-key, #delete.keyboard-key {
+  #enter-key.keyboard-key, #delete-key.keyboard-key {
     width: 14%;
   }
 }
@@ -188,11 +188,23 @@ body {
   margin-left: 4px;
 }
 
-#enter.keyboard-key, #delete.keyboard-key {
+#enter-key.keyboard-key, #delete.keyboard-key {
   font-size: 1.5vh;
 }
 
-#delete.keyboard-key > svg {
+#delete-key.keyboard-key > svg {
   height: 3vh;
   width: 3vh;
+}
+
+.keyboard-key[evaluation='correct'] {
+  background-color: #538d4e;
+}
+
+.keyboard-key[evaluation='present'] {
+  background-color: #b59f3b;
+}
+
+.keyboard-key[evaluation='absent'] {
+  background-color: #1e1e1e;
 }
