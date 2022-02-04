@@ -11,6 +11,8 @@ $(document).ready(function() {
   drawLettersGrid();
   drawKeyboard();
 
+  $('#share-button').on('click', shareResult);
+
   // Handling the user keyboard input
   $(this).keypress(function(e) {
     handleKeyInput(e.which);
@@ -237,13 +239,10 @@ function resizePage() {
   let share_svg = $('#share-svg');
   share_svg.attr('height', parseFloat($('#title').css('font-size'))*3/4);
   share_svg.attr('width', parseFloat($('#title').css('font-size'))*3/4);
-  share_svg.css({'top': (parseFloat(header.css('height')) - parseFloat(share_svg.attr('height'))) / 2});
-  share_svg.css({'left': parseFloat(share_svg.css('left')) + parseFloat(header.css('width')) / 30});
-  share_svg.addClass('hidden');
+  // share_svg.css({'top': (parseFloat(header.css('height')) - parseFloat(share_svg.attr('height'))) / 2});
+  // share_svg.css({'left': parseFloat(share_svg.css('left')) + parseFloat(header.css('width')) / 30});
 
-  share_svg.on('click', shareResult);
-
-  let statsModal = $('#statsModal').find('.modal-content');
+  let statsModal = $('#statsModalContainer');
   statsModal.css({'width': full_width});
 }
 
@@ -369,13 +368,28 @@ function updateGameProgess(progress) {
 function gameLost() {
   updateGameProgess("LOSE");
   addGameStats(0);
+  showStatsModal();
 }
 
 function correctGuess(guess_no) {
   updateGameProgess("WIN");
-  $('#share-svg').removeClass('hidden');
   addGameStats(guess_no);
-  $('#statsModal').toggleClass('modal-show');
+ showStatsModal();
+}
+
+function showStatsModal() {
+  $('#statsModalContainer').delay( 2200 )
+  .toggleClass('modal-show')
+  .css({'top':'-300px'})
+  .animate(
+    { top:0 },
+    {
+      duration: 400,
+      start: function() {
+        $('#statsModal').addClass('modal-show');
+      }
+    }
+  )
 }
 
 function addGameStats(guess_no) {
