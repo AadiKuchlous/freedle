@@ -281,7 +281,7 @@ function evaluate(guess, guess_no) {
   console.log('evaluating');
 
   let solution = getSolutionFromStorage().split('');
-  let const_guess = guess;
+  let const_guess = [...guess];
 
   // Check if word is valid
   let guess_string = guess.join('');
