@@ -244,6 +244,14 @@ function resizePage() {
 
   let statsModal = $('#statsModalContainer');
   statsModal.css({'width': full_width});
+
+  let header_height = $('#header').css('height');
+  let container = $('#container');
+
+  $('.menu-button').css({'height': `${header_height}`});
+  $('.menu-button').find('svg').attr('height', `${parseFloat(header_height)*5/12}px`).attr('width', `${parseFloat(header_height)*5/12}px`);
+
+  $('.menu-button[role="stats"]').on('click', showStatsModal).css({'right': `${parseFloat(container.css('margin-right')) + full_width / 15}px`});
 }
 
 function chooseGridDimentions() {
@@ -368,17 +376,34 @@ function updateGameProgess(progress) {
 function gameLost() {
   updateGameProgess("LOSE");
   addGameStats(0);
+
+  $('#statsModalContainer').delay( 2200 );
   showStatsModal();
 }
 
 function correctGuess(guess_no) {
   updateGameProgess("WIN");
   addGameStats(guess_no);
- showStatsModal();
+
+  $('#statsModalContainer').delay( 2200 );
+  showStatsModal();
 }
 
 function showStatsModal() {
-  $('#statsModalContainer').delay( 2200 )
+  // Update the displayed stats in the modal
+  let stats = JSON.parse(localStorage.stats);
+  let games_played = stats.gamesPlayed;
+  let games_won = stats.gamesWon;
+  let win_percentage = stats.winPercentage;
+  let games_lost = games_played - games_won;
+
+  $('#gamesplayed.stat-container').find('.stat').text(games_played);
+  $('#winpercentage.stat-container').find('.stat').text(win_percentage);
+  $('#gameswon.stat-container').find('.stat').text(games_won);
+  $('#gameslost.stat-container').find('.stat').text(games_lost);
+
+  // Animation for sliding in of modal from top
+  $('#statsModalContainer')
   .toggleClass('modal-show')
   .css({'top':'-300px'})
   .animate(
