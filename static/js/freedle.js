@@ -41,7 +41,8 @@ $(document).ready(function() {
   if (newGame) {
     localStorage.setItem('gameState', JSON.stringify({
       'board-state': [...Array(6)].map(e => new Array()),
-      'solution': getSolution(today, start_date, all_answers)
+	      'solution': getSolution(today, start_date, all_answers),
+      'progress': "IN_PROGRESS"
     }))
   }
 
@@ -122,6 +123,12 @@ function drawKeyboard() {
 }
 
 function handleKeyInput(asc) {
+  let game_state = getGameState();
+
+  if (game_state.progress == "WIN" || game_state.progress == "LOST") {
+    return;
+  }
+
   let board_state = getBoardState();
 
   let guess_no = getGuessNo();
@@ -200,7 +207,6 @@ function fillLettersInGrid(board_state) {
       let tile = grid_row.find(`.game-tile[x=${i}]`)
       tile.text(letter);
       tile.attr('data-state', 'empty');
-      // tile.attr('data-animation', 'pop');
     }
   }
 }
@@ -281,7 +287,7 @@ function evaluate(guess, guess_no) {
   }
 
   let correct_letters_count = 0;
-  let eval = [];
+  let evaluation = [];
 
   for (i = 0; i < guess.length; i++){
     let letter = guess[i].toLowerCase();
@@ -298,10 +304,10 @@ function evaluate(guess, guess_no) {
         correct_letters_count += 1;
         tile.attr('evaluation', 'correct');
         letter_key.attr('evaluation', 'correct');
-        eval.push('correct');
+        evaluation.push('correct');
       }
       else {
-        eval.push('present');
+        evaluation.push('present');
         tile.attr('evaluation', 'present');
         if (!(letter_key.attr('evaluation') == "correct")) {
           letter_key.attr('evaluation', 'present');
@@ -309,7 +315,7 @@ function evaluate(guess, guess_no) {
       }
     }
     else {
-      eval.push('absent');
+      evaluation.push('absent');
       tile.attr('evaluation', 'absent');
       if (!(letter_key.attr('evaluation') == "correct" || letter_key.attr('evaluation') == "present")) {
         letter_key.attr('evaluation', 'absent');
@@ -328,14 +334,22 @@ function evaluate(guess, guess_no) {
     }
   }
 
-  return eval;
+  return evaluation;
+}
+
+function updateGameProgess(progress) {
+  let game_state = getGameState();
+  game_state.progress = progress;
+  setGameState(game_state);
 }
 
 function gameLost() {
+  updateGameProgess("LOSE");
   addGameStats(0);
 }
 
 function correctGuess(guess_no) {
+  updateGameProgess("WIN");
   $('#share-svg').removeClass('hidden');
   addGameStats(guess_no);
 }
@@ -409,7 +423,7 @@ function shareResult() {
   let outputString = "";
 
   let freedle_index = getDayOffset(today, start_date);
-  outputString += `Freedle ${freedle_index} \n\n`;
+  outputString += `Freedle ${freedle_index} ${getGuessNo()}/6* \n\n`;
 
 
   for (guess_no = 0; guess_no < board_state.length; guess_no++) {
@@ -422,6 +436,8 @@ function shareResult() {
  
     for (letter_index = 0; letter_index < guess.length; letter_index++) {
       let letter_eval = guess_eval[letter_index];
+
+      console.log(letter_eval);
 
       switch (letter_eval) {
         case "correct":
@@ -475,6 +491,15 @@ function getSolutionFromStorage() {
 function setBoardState(new_state) {
   let game_state = JSON.parse(localStorage.gameState);
   game_state['board-state'] = new_state;
+  localStorage.setItem('gameState', JSON.stringify(game_state));
+}
+
+function getGameState() {
+  return JSON.parse(localStorage.gameState);
+}
+
+function setGameState(new_state) {
+  game_state = new_state;
   localStorage.setItem('gameState', JSON.stringify(game_state));
 }
 
