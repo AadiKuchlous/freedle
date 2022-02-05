@@ -48,9 +48,11 @@ $(document).ready(function() {
 	      'solution': getSolution(today, start_date, all_answers),
       'progress': "IN_PROGRESS"
     }))
+    gtag('event', 'New Game');
   }
 
     if (!(localStorage.stats)) {
+    gtag('event', 'New User');
     localStorage.setItem('stats', JSON.stringify({
       'guesses': {
         "1": 0,
@@ -481,6 +483,7 @@ function addGameStats(guess_no) {
   // Fail processing
   if (guess_no == 0) {
     stats.guesses.fail += 1;
+    gtag('event', 'Game Lost');
   }
   else {
     stats.gamesWon += 1;
@@ -568,6 +571,7 @@ function shareResult() {
     alert(`The following was copied to your clipboard:\n${outputString}`);
   }
 
+  gtag('event', 'Shared');
 }
 
 var green_square = '\uD83D\uDFE9';
