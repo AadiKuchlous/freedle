@@ -139,6 +139,9 @@ body {
   font-weight: bold;
   font-size: 2.5vh;
   letter-spacing: 0.2rem;
+  width: 100%;
+  disply: flex;
+  align-items: center;
 }
 
 .menu-button {
