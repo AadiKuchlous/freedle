@@ -442,9 +442,10 @@ function showStatsModal() {
   // Show Share Button if Game is Over
   let game_status = getGameState().progress;
   if (game_status == 'IN_PROGRESS') {
-    $('#share-button').addClass('hidden');
+    $('#stats-footer').addClass('hidden');
   } else {
-    $('#share-button').removeClass('hidden');
+    startCountdown();
+    $('#stats-footer').removeClass('hidden');
   }
 
   // Animation for sliding in of modal from top
@@ -605,6 +606,50 @@ function hideDisplayModal() {
   $('#infoModal').removeClass('modal-show');
 }
 
+
+function startCountdown() {
+  let hour_area = $('#countdown-hours');
+  let minute_area = $('#countdown-minutes');
+  let second_area = $('#countdown-seconds');
+  let today = new Date(new Date().setHours(0, 0, 0, 0));
+  let end_time = today.setDate(today.getDate() + 1);
+
+  let countdown_interval = setInterval(function() {
+    let t = getTimeRemaining(end_time);
+
+    hour_area.text(paddedTime(t.hours));
+    minute_area.text(paddedTime(t.minutes));
+    second_area.text(paddedTime(t.seconds));
+
+    if (t.total <= 0) {
+      clearInterval(countdown_interval);
+    }
+  }, 1000);
+}
+
+function getTimeRemaining(endtime){
+  const total = endtime - Date.parse(new Date());
+  const seconds = Math.floor( (total/1000) % 60 );
+  const minutes = Math.floor( (total/1000/60) % 60 );
+  const hours = Math.floor( (total/(1000*60*60)) % 24 );
+  const days = Math.floor( total/(1000*60*60*24) );
+
+  return {
+    total,
+    days,
+    hours,
+    minutes,
+    seconds
+  };
+}
+
+function paddedTime(val) {
+  if (val < 10) {
+    return '0' + val.toString();
+  } else {
+    return val.toString();
+  }
+}
 
 
 function copyToClipboard(text) {

@@ -358,16 +358,25 @@ body {
 }
 
 
-#share-button {
+#share-button-container {
   width: 50%;
-//  height: 35%;
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-left: 2px black solid;
+
+}
+
+#share-button {
+  width: 80%;
+  height: 90%;
   display: flex;
   align-items: center;
   justify-content: center;
   border: none;
   background-color: #538d4e;
   border-radius: 1vw;
-  flex-grow: 1;
 }
 
 #share-button:hover {
