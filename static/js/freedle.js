@@ -488,7 +488,7 @@ function addGameStats(guess_no) {
   else {
     stats.gamesWon += 1;
     stats.guesses[guess_no.toString()] += 1;
-    gtag('event', 'GameWon');
+    gtag('event', 'Game Win');
   }
 
   // Extra '*10' for one decimal place rounding
