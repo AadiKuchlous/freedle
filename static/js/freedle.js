@@ -51,7 +51,7 @@ $(document).ready(function() {
     gtag('event', 'New Game');
   }
 
-    if (!(localStorage.stats)) {
+  if (!(localStorage.stats)) {
     gtag('event', 'New User');
     localStorage.setItem('stats', JSON.stringify({
       'guesses': {
@@ -68,6 +68,8 @@ $(document).ready(function() {
       'winPercentage': 0,
       'lastSubmittedTs': 0
     }));
+  } else {
+    gtag('event', 'Repeat User');
   }
 
   typeColouredLettersInGrid(getBoardState());
