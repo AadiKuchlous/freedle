@@ -328,12 +328,14 @@ function chooseGridDimentions() {
 
 function evaluate(guess, guess_no) {
   console.log('evaluating');
+  let guess_string = guess.join('');
+
+  gtag('event', 'guess', {'guess word': guess_string});
 
   let solution = getSolutionFromStorage().split('');
   let const_guess = [...guess];
 
   // Check if word is valid
-  let guess_string = guess.join('');
   if (!(all_answers.includes(guess_string)) && !(valid_words.includes(guess_string))) {
     alert("Not In Word List");
     return;
@@ -483,12 +485,12 @@ function addGameStats(guess_no) {
   // Fail processing
   if (guess_no == 0) {
     stats.guesses.fail += 1;
-    gtag('event', 'Game Lost');
+    gtag('event', 'Game Lost', {'guesses': JSON.stringify(getBoardState())});
   }
   else {
     stats.gamesWon += 1;
     stats.guesses[guess_no.toString()] += 1;
-    gtag('event', 'Game Win');
+    gtag('event', 'Game Win', {'guesses': JSON.stringify(getBoardState())});
   }
 
   // Extra '*10' for one decimal place rounding
