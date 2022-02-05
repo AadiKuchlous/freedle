@@ -497,7 +497,7 @@ function addGameStats(guess_no) {
   // Fail processing
   if (guess_no == 0) {
     stats.guesses.fail += 1;
-    gtag('event', 'Game Lost', {'guesses': getBoardStateAsString())});
+    gtag('event', 'Game Lost', {'guesses': getBoardStateAsString()});
   }
   else {
     stats.gamesWon += 1;
@@ -619,10 +619,12 @@ function getBoardStateAsString() {
   let board_state = getBoardState();
   let out_string = '';
   for (i = 0; i < board_state.length; i++) {
-    out_string += board_state[i].join() + ',';
+    if (board_state[i].length == 0) {
+      continue;
+    }
+    out_string += board_state[i].join('') + ',';
   }
-
-  return out.slice(0, -1);
+  return out_string.slice(0, -1);
 }
 
 $(window).on('click', function() {
