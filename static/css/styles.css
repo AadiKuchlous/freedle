@@ -141,7 +141,7 @@ body {
   letter-spacing: 0.2rem;
   width: 100%;
   display: flex;
-  align-items: center;
+  justify-content: center;
 }
 
 .menu-button {
