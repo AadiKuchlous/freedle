@@ -11,8 +11,6 @@ $(document).ready(function() {
   drawLettersGrid();
   drawKeyboard();
 
-  $('#share-button').on('click', shareResult);
-
   // Handling the user keyboard input
   $(this).keypress(function(e) {
     handleKeyInput(e.which);
@@ -48,6 +46,24 @@ $(document).ready(function() {
 	      'solution': getSolution(today, start_date, all_answers),
       'progress': "IN_PROGRESS"
     }))
+  }
+
+    if (!(localStorage.stats)) {
+    localStorage.setItem('stats', JSON.stringify({
+      'guesses': {
+        "1": 0,
+        "2": 0,
+        "3": 0,
+        "4": 0,
+        "5": 0,
+        "6": 0,
+        "fail": 0
+      },
+      'gamesPlayed': 0,
+      'gamesWon': 0,
+      'winPercentage': 0,
+      'lastSubmittedTs': 0
+    }));
   }
 
   typeColouredLettersInGrid(getBoardState());
@@ -127,6 +143,8 @@ function drawKeyboard() {
 }
 
 function handleKeyInput(asc) {
+  $(window).focus();
+
   let game_state = getGameState();
 
   if (game_state.progress == "WIN" || game_state.progress == "LOST") {
@@ -184,7 +202,6 @@ function handleKeyInput(asc) {
   }
 
   setBoardState(board_state);
-  // typeLettersInGrid(board_state);
 }
 
 
@@ -422,6 +439,14 @@ function showStatsModal() {
   $('#gameswon.stat-container').find('.stat').text(games_won);
   $('#gameslost.stat-container').find('.stat').text(games_lost);
 
+  // Show Share Button if Game is Over
+  let game_status = getGameState().progress;
+  if (game_status == 'IN_PROGRESS') {
+    $('#share-button').addClass('hidden');
+  } else {
+    $('#share-button').removeClass('hidden');
+  }
+
   // Animation for sliding in of modal from top
   $('#statsModalContainer')
   .toggleClass('modal-show')
@@ -438,24 +463,6 @@ function showStatsModal() {
 }
 
 function addGameStats(guess_no) {
-  if (!(localStorage.stats)) {
-    localStorage.setItem('stats', JSON.stringify({
-      'guesses': {
-        "1": 0,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0,
-        "6": 0,
-        "fail": 0
-      },
-      'gamesPlayed': 0,
-      'gamesWon': 0,
-      'winPercentage': 0,
-      'lastSubmittedTs': 0
-    }));
-  }
-
   let stats = JSON.parse(localStorage.stats);
 
   let time_now = new Date();
