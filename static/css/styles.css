@@ -16,6 +16,10 @@ body {
     width: 100%;
   }
 
+  #header {
+    height: 12%;
+  }
+
   #tiles-grid {
     width: 80%;
     grid-gap: 1vw;
@@ -48,6 +52,10 @@ body {
 
   #container {
     width: 50vh;
+  }
+
+  #header {
+    height: 8%;
   }
 
   #tiles-grid {
@@ -90,7 +98,6 @@ body {
 #header {
   width: 100%;
   background-color: lightslategray;
-  height: 8%;
 }
 
 #tiles-area {
