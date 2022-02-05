@@ -34,6 +34,7 @@ $(document).ready(function() {
   // For new device and/or new day, reset/initialise localStorage.
   if (!(localStorage.gameState)) {
     newGame = true;
+    showInfo();
   }
   if (localStorage.gameState) {
     if (JSON.parse(localStorage.gameState).solution !== getSolution(today, start_date, all_answers)) {
@@ -243,7 +244,9 @@ function resizePage() {
   // share_svg.css({'left': parseFloat(share_svg.css('left')) + parseFloat(header.css('width')) / 30});
 
   let statsModal = $('#statsModalContainer');
+  let infoModal = $('#infoModalContainer');
   statsModal.css({'width': full_width});
+  infoModal.css({'width': full_width});
 
   let header_height = $('#header').css('height');
   let container = $('#container');
@@ -252,6 +255,23 @@ function resizePage() {
   $('.menu-button').find('svg').attr('height', `${parseFloat(header_height)*5/12}px`).attr('width', `${parseFloat(header_height)*5/12}px`);
 
   $('.menu-button[role="stats"]').on('click', showStatsModal).css({'right': `${parseFloat(container.css('margin-right')) + full_width / 15}px`});
+  $('.menu-button[role="info"]').on('click', showInfo).css({'left': `${parseFloat(container.css('margin-right')) + full_width / 15}px`});
+}
+
+function showInfo() {
+  // Animation for sliding in of modal from top
+  $('#infoModalContainer')
+  .toggleClass('modal-show')
+  .css({'top':'-300px'})
+  .animate(
+    { top:0 },
+    {
+      duration: 400,
+      start: function() {
+        $('#infoModal').addClass('modal-show');
+      }
+    }
+  )
 }
 
 function chooseGridDimentions() {
@@ -567,7 +587,7 @@ function setGameState(new_state) {
 }
 
 $(window).on('click', function() {
-  if (event.target == $('#statsModal')[0] || event.target == $('#statsModal').find('.close')[0]) {
+  if (event.target == $('#statsModal')[0] || $(event.target).hasClass('close') || event.target == $('#infoModal')[0]) {
     hideDisplayModal();
   }
 });
@@ -575,6 +595,7 @@ $(window).on('click', function() {
 
 function hideDisplayModal() {
   $('#statsModal').removeClass('modal-show');
+  $('#infoModal').removeClass('modal-show');
 }
 
 

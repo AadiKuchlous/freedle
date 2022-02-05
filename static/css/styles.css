@@ -288,7 +288,7 @@ body {
   display: block !important;
 }
 
-#statsModal.modal-show {
+#statsModal.modal-show, #infoModal.modal-show{
   top: 0;
 }
 
@@ -407,4 +407,35 @@ body {
 
 .stat-container > .stat-label {
   font-size: 2vh;
+}
+
+#infoModalContainer {
+  display: block;
+  padding: 15px;
+  margin: 30vh auto 0 auto;
+  box-sizing: border-box;
+  height: 30%;
+  position: relative;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+}
+
+#infoModal .modal-content {
+  font-size: 2.3vh;
+  padding-left: 30px;
+}
+
+#infoModal p {
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+}
+
+#info-footer {
+  flex-grow: 0.6;
+  align-items: flex-end;
+}
+
+#wordleLink {
+  margin-left: 1rem;
 }
