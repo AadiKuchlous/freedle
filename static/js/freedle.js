@@ -395,7 +395,17 @@ function evaluate(guess, guess_no) {
     });
 
     tile.attr('evaluation', value);
-    letter_key.attr('evaluation', value);
+
+    let old_evaluation = letter_key.attr('evaluation');
+    if (!old_evaluation) {
+      letter_key.attr('evaluation', value);
+    } else {
+      if (old_evaluation == 'absent' && (value == 'present' || value == 'correct')) {
+        letter_key.attr('evaluation', value);
+      } else if (old_evaluation == 'present' && value == 'correct') {
+        letter_key.attr('evaluation', value);
+      }
+    }
   }
 
   $(`.tile-row[row=${guess_no}]`).attr('evaluated', 'true');
@@ -487,12 +497,12 @@ function addGameStats(guess_no) {
   // Fail processing
   if (guess_no == 0) {
     stats.guesses.fail += 1;
-    gtag('event', 'Game Lost', {'guesses': JSON.stringify(getBoardState())});
+    gtag('event', 'Game Lost', {'guesses': getBoardStateAsString())});
   }
   else {
     stats.gamesWon += 1;
     stats.guesses[guess_no.toString()] += 1;
-    gtag('event', 'Game Win', {'guesses': JSON.stringify(getBoardState())});
+    gtag('event', 'Game Win', {'guesses': getBoardStateAsString()});
   }
 
   // Extra '*10' for one decimal place rounding
@@ -603,6 +613,16 @@ function getGameState() {
 function setGameState(new_state) {
   game_state = new_state;
   localStorage.setItem('gameState', JSON.stringify(game_state));
+}
+
+function getBoardStateAsString() {
+  let board_state = getBoardState();
+  let out_string = '';
+  for (i = 0; i < board_state.length; i++) {
+    out_string += board_state[i].join() + ',';
+  }
+
+  return out.slice(0, -1);
 }
 
 $(window).on('click', function() {
