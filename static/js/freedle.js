@@ -11,6 +11,8 @@ $(document).ready(function() {
   drawLettersGrid();
   drawKeyboard();
 
+  $('#share-button').on('click', shareResult);
+
   // Handling the user keyboard input
   $(this).keypress(function(e) {
     handleKeyInput(e.which);
