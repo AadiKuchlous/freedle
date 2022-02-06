@@ -412,6 +412,11 @@ function evaluate(guess, guess_no) {
   $(`.tile-row[row=${guess_no}]`).attr('evaluated', 'true');
 
   if (correct_letters_count == guess.length) {
+    for (i = 0; i < evaluation.length; i++) {
+      let tile = $(`.tile-row[row=${guess_no}]`).find(`.game-tile[x=${i}]`);
+      tile.on('animationend', function(){$(this).attr('data-animation', '');});
+      setTimeout(function(){tile.addClass('win')}, 1200);
+    }
     correctGuess(guess_no+1);
   }
   else {
@@ -433,7 +438,7 @@ function gameLost() {
   updateGameProgess("LOSE");
   addGameStats(0);
 
-  $('#statsModalContainer').delay( 2200 );
+  $('#statsModalContainer').delay( 3200 );
   showStatsModal();
 }
 
@@ -441,7 +446,7 @@ function correctGuess(guess_no) {
   updateGameProgess("WIN");
   addGameStats(guess_no);
 
-  $('#statsModalContainer').delay( 2200 );
+  $('#statsModalContainer').delay( 3200 );
   showStatsModal();
 }
 

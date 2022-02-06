@@ -213,6 +213,7 @@ body {
   animation-name: PopIn;
   animation-duration: 150ms;
 }
+
 @keyframes PopIn {
   from {
     transform: scale(0.8);
@@ -230,6 +231,7 @@ body {
   animation-duration: 300ms;
   animation-timing-function: ease-in-out;
 }
+
 @keyframes FlipIn {
   0% {
     transform: rotateX(-90deg);
@@ -238,6 +240,32 @@ body {
   100% {
     transform: rotateX(0deg);
     opacity: 1;
+  }
+}
+
+.win {
+  animation-name: Bounce;
+  animation-duration: 1000ms;
+}
+
+@keyframes Bounce {
+  0%, 20% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-30px);
+  }
+  50% {
+    transform: translateY(5px);
+  }
+  60% {
+    transform: translateY(-15px);
+  }
+  80% {
+    transform: translateY(2px);
+  }
+  100% {
+    transform: translateY(0);
   }
 }
 
