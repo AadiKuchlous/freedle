@@ -69,7 +69,9 @@ $(document).ready(function() {
       'lastSubmittedTs': 0
     }));
   } else {
-    gtag('event', 'Repeat User');
+      if (newGame) {
+        gtag('event', 'Repeat User');
+      }
   }
 
   typeColouredLettersInGrid(getBoardState());
