@@ -166,6 +166,7 @@ function handleKeyInput(asc) {
   // Enter Key Pressed
   if (asc == 13) {
     if (board_state[guess_no].length == 5) {
+      gtag('event', 'guess', {'guess word': board_state[guess_no].join('')});
       evaluate(board_state[guess_no], guess_no);
       return;
     }
@@ -333,8 +334,6 @@ function chooseGridDimentions() {
 function evaluate(guess, guess_no) {
   console.log('evaluating');
   let guess_string = guess.join('');
-
-  gtag('event', 'guess', {'guess word': guess_string});
 
   let solution = getSolutionFromStorage().split('');
   let const_guess = [...guess];
