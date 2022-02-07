@@ -156,10 +156,13 @@ body {
 }
 
 .menu-button {
-  position: absolute;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.menu-button[role="info"] {
+  position: absolute;
 }
 
 #tiles-grid {
@@ -348,7 +351,7 @@ body {
   display: block !important;
 }
 
-#statsModal.modal-show, #infoModal.modal-show{
+#statsModal.modal-show, #infoModal.modal-show, #settingsModal.modal-show{
   top: 0;
 }
 
@@ -478,10 +481,22 @@ body {
   font-size: 2vh;
 }
 
-#infoModalContainer {
+#settingsModalContainer {
   display: block;
   padding: 15px;
   margin: 30vh auto 0 auto;
+  box-sizing: border-box;
+  height: 30%;
+  position: relative;
+  animation-name: animatetop;
+  animation-duration: 0.4s;
+  color: #4c4c4c;;
+}
+
+#infoModalContainer {
+  display: block;
+  padding: 15px;
+  margin: 20vh auto 0 auto;
   box-sizing: border-box;
 //  height: 30%;
   position: relative;
@@ -546,4 +561,41 @@ body {
   font-weight: 700;
   font-size: 2.8vh;
   text-transform: uppercase;
+}
+
+#settingsTitle {
+  font-weight: bold;
+  font-size: 2.3vh;
+}
+
+#levels-button-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-grow: 0.5;
+}
+
+.level-button-container {
+  height: 100%;
+  /* width: 100%; */
+  flex-grow: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.word-length-option {
+  height: 75%;
+  width: 90%;
+  font-size: 2.3vh;
+}
+
+.divider {
+  margin: auto;
+}
+
+#bonus-feature {
+  margin: auto;
+  text-align: center;
 }
