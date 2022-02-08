@@ -700,7 +700,9 @@ function shareResult() {
   let outputString = "";
 
   let freedle_index = getDayOffset(today, start_date);
-  outputString += `Freedle ${freedle_index} ${getGuessNo()}/6* \n\n`;
+  outputString += `Freedle ${freedle_index} ${getGuessNo()}/${parseInt(localStorage.wordLength)+1}* \n`;
+
+  outputString += `${localStorage.wordLength} Letter Word\n\n`;
 
 
   for (guess_no = 0; guess_no < board_state.length; guess_no++) {
